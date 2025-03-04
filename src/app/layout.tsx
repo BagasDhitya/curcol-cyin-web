@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 
 import { ToastContainer } from 'react-toastify'
+import Navbar from "@/components/atomics/navbar.module";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
+        <Navbar />
         {children}
         <ToastContainer />
       </body>

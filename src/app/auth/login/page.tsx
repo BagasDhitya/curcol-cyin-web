@@ -19,11 +19,14 @@ export default function Login() {
     async function onSubmitLogin(data: { email: string, password: string }) {
         try {
             const response: any = await Backendless.UserService.login(data.email, data.password, true)
+            console.log('ress', response)
 
+            await localStorage.setItem("name", response.name)
+            await localStorage.setItem("email", response.email)
             Cookies.set("user-token", response["user-token"], { expires: 7 })
 
             toast.success("Login successful")
-            // arahkan ke feed
+            router.push('/')
         } catch (error) {
             toast.error(`Login failed : ${error}`)
         }
