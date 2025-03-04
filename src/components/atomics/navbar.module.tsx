@@ -10,17 +10,11 @@ export default function Navbar() {
     const [isLogin, setIsLogin] = useState<boolean>(false)
     const [profile, setProfile] = useState<any>()
 
+    const name = localStorage.getItem("name")
+    const email = localStorage.getItem("email")
+
     useEffect(() => {
         const token = Cookies.get('user-token')
-        const name = localStorage.getItem("name")
-        const email = localStorage.getItem("email")
-
-        const profile = {
-            email: email,
-            name: name
-        }
-
-        setProfile(profile)
         setIsLogin(true)
 
         if (token) {
@@ -30,7 +24,13 @@ export default function Navbar() {
         }
     }, [])
 
-
+    useEffect(() => {
+        const profile = {
+            email: email,
+            name: name
+        }
+        setProfile(profile)
+    }, [name, email])
 
     if (pathname === '/auth/login' && '/auth/register') {
         return

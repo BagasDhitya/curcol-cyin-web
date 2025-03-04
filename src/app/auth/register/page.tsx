@@ -18,7 +18,7 @@ export default function Register() {
         try {
             await Backendless.UserService.register(data)
             toast.success("Registration successful")
-            router.push('/login')
+            router.push('/auth/login')
         } catch (error) {
             toast.error(`Registration failed: ${error}`)
         }
