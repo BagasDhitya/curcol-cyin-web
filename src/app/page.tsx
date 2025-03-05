@@ -1,4 +1,6 @@
+import ActionButton from "@/components/atomics/actionButton.module"
 import Backendless from "@/lib/backendless"
+import Link from "next/link"
 
 type Post = {
   objectId: string,
@@ -12,10 +14,10 @@ type Post = {
 
 export default async function Feeds() {
 
-  const posts = await Backendless.Data.of("posts").find({ relations: ["author"] }) as Post[]
+  const posts = JSON.parse(JSON.stringify(await Backendless.Data.of("posts").find({ relations: ['author'] }))) as Post[];
 
   return (
-    <div className="w-screen h-screen justify-center items-center flex flex-col">
+    <div className="w-screen h-full justify-center items-center flex flex-col mt-16">
       <div className="p-6 w-1/2 mx-auto">
         <h1 className="text-2xl font-bold mb-4">All Posts</h1>
         {
@@ -34,12 +36,18 @@ export default async function Feeds() {
                     <p className="text-sm text-slate-700">By {post?.author[0]?.name}</p>
                     <p className="text-sm text-blue-500">Created on : {new Date(post?.date_time).toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "2-digit" })}</p>
                   </div>
+                  <ActionButton post={post} />
                 </div>
               )
             })
           )
         }
       </div>
+      <Link
+        href={'/users/dashboard'}
+        className="bg-blue-500 p-5 w-40 h-20 fixed bottom-10 right-10 text-center font-semibold text-white rounded-xl">
+        Create Post
+      </Link>
     </div>
   )
 }
