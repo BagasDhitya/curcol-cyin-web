@@ -32,11 +32,13 @@ export default async function Feeds() {
                 >
                   <h2 className="text-xl font-semibold">{post?.title}</h2>
                   <p className="text-slate-400">{post?.content}</p>
-                  <div className="mt-10">
-                    <p className="text-sm text-slate-700">By {post?.author[0]?.name}</p>
-                    <p className="text-sm text-blue-500">Created on : {new Date(post?.date_time).toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "2-digit" })}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="mt-10">
+                      <p className="text-sm text-slate-700">By {post?.author[0]?.name}</p>
+                      <p className="text-sm text-blue-500">Created on : {new Date(post?.date_time).toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "2-digit" })}</p>
+                    </div>
+                    <ActionButton post={post} />
                   </div>
-                  <ActionButton post={post} />
                 </div>
               )
             })
