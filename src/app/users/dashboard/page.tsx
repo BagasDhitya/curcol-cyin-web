@@ -55,7 +55,7 @@ export default function UserDashboard() {
             }
 
             toast.success("Success create your post!");
-            router.push("/")
+            // router.push("/")
         } catch (error) {
             toast.error(`Failed to create post: ${error}`);
             console.error(error);

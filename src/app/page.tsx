@@ -16,9 +16,6 @@ type Post = {
 export default async function Feeds() {
 
   const posts = JSON.parse(JSON.stringify(await Backendless.Data.of("posts").find({ relations: ['author'] }))) as Post[];
-  const user = await Backendless.UserService.getCurrentUser();
-
-  console.log(user)
 
   return (
     <div className="w-screen h-full justify-center items-center flex flex-col mt-16">
@@ -41,10 +38,7 @@ export default async function Feeds() {
                       <p className="text-sm text-slate-700">By {post?.author[0]?.name}</p>
                       <p className="text-sm text-blue-500">Created on : {new Date(post?.date_time).toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "2-digit" })}</p>
                     </div>
-                    {
-                      post.ownerId === user?.objectId ?
-                        <ActionButton post={post} /> : null
-                    }
+                    <ActionButton post={post} />
                   </div>
                 </div>
               )
