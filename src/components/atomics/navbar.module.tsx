@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Cookies from "js-cookie"
 
@@ -7,36 +7,29 @@ export default function Navbar() {
 
     const router = useRouter()
     const pathname = usePathname()
-    const [isLogin, setIsLogin] = useState<boolean>(false)
-    const [profile, setProfile] = useState<any>()
+    const isLogin = useRef(false)
+    const profile = useRef({ name: "", email: "" })
 
-    const name = localStorage.getItem("name")
-    const email = localStorage.getItem("email")
 
     useEffect(() => {
         const token = Cookies.get('user-token')
-        setIsLogin(true)
 
         if (token) {
-            return
+            isLogin.current = true
         } else {
+            isLogin.current = false
             router.push('/auth/login')
         }
-    }, [])
 
-    useEffect(() => {
-        const profile = {
-            email: email,
-            name: name
+        profile.current = {
+            name: localStorage.getItem("name") as string,
+            email: localStorage.getItem("email") as string
         }
-        setProfile(profile)
-    }, [name, email])
+    }, [router])
 
     if (pathname === '/auth/login' && '/auth/register') {
         return
     }
-
-    console.log('profile -> ', profile)
 
     return (
         <div className="w-screen h-16 p-4 flex justify-between fixed top-0 bg-blue-600">
@@ -45,8 +38,8 @@ export default function Navbar() {
             </div>
             <div className="text-white flex justify-center items-center">
                 {
-                    isLogin && profile ?
-                        <p>Hello, {profile.name}</p> :
+                    isLogin.current && profile ?
+                        <p>Hello, {profile.current.name}</p> :
                         <button>Login</button>
                 }
             </div>
